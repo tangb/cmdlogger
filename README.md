@@ -26,6 +26,8 @@ Now build a standalone executable running:
 ./build.bat
 ```
 
+You can find in dist/cmdlogger.7z Win64 precompiled binary.
+
 # Tests
 You can launch tests using test/server.py script:
 ```
