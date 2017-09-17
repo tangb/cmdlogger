@@ -1,5 +1,6 @@
 import socket
 import threading
+import errno
 
 class ClientThread(threading.Thread):
 
@@ -19,8 +20,10 @@ class ClientThread(threading.Thread):
                     #client disonnected
                     break
                 print('Received: %s' % response)
-            except:
-                pass
+            except socket.error as e:
+                if e.args[0] == errno.EWOULDBLOCK:
+                    #timeout error
+                    pass
         print('%s:%d disconnected' % (self.ip, self.port))
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
