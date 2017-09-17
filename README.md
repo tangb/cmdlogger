@@ -2,6 +2,7 @@
 Runs specified command, watchs for stdout/stderr and sends output to socket server.
 
 This program was originally created to monitor Windows command launched under UAC elevated privileges using ShellExecuteEx.
+
 Windows ShellExecuteEx function prevents stdout/stderr from being displayed in console (in fact there is no console)
 This program is only a workaround for that problem.
 
