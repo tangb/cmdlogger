@@ -24,7 +24,7 @@ from threading import Thread
 #init logger
 logging.basicConfig(level=logging.WARN, format='%(asctime)s %(name)s.%(funcName)s +%(lineno)s: %(levelname)-8s [%(process)d] %(message)s')
 logger = logging.getLogger('CmdLogger')
-logger.setLevel(logging.INFO)
+#logger.setLevel(logging.DEBUG)
 
 #globals
 stdout_queue = Queue()
@@ -100,11 +100,12 @@ except:
     client = None
 command = args[1]
 if len(args)>=2:
-    command_args = args[2:]
+    command_args = u' '.join([u'"%s"' % (x,) for x in args[2:]])
+logger.debug(u'command:%s command_args:%s' % (command, command_args))
 
 #launch command
 logger.debug(u'Launch command')
-p = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p = subprocess.Popen(u'%s %s' % (command, command_args), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 pid = p.pid
 
 #async stdout reading
