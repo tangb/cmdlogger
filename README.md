@@ -9,6 +9,13 @@ This program is only a workaround for that problem.
 # Installation
 This program runs with Python2.7.X and Python3.X and requires no extra library.
 
+# How to use
+Launch Windows command using ShellExecuteEx (no console window and UAC elevation):
+```
+proc_info = ShellExecuteEx(nShow=win32con.SW_HIDE, fMask=shellcon.SEE_MASK_NOCLOSEPROCESS, lpVerb=u'runas', lpFile=cmd, lpParameters=params)
+```
+And inspires next part of your code with test/server.py sample.
+
 # Build
 Install build dependency [Pyinstaller](http://www.pyinstaller.org/) running in windows console:
 ```
