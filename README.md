@@ -10,11 +10,15 @@ This program is only a workaround for that problem.
 This program runs with Python2.7.X and Python3.X and requires no extra library.
 
 # How to use
+## Windows
 Launch Windows command using ShellExecuteEx (no console window and UAC elevation):
 ```
 proc_info = ShellExecuteEx(nShow=win32con.SW_HIDE, fMask=shellcon.SEE_MASK_NOCLOSEPROCESS, lpVerb=u'runas', lpFile=cmd, lpParameters=params)
 ```
 And inspires next part of your code with test/server.py sample.
+
+## Mac
+TODO
 
 # Build
 Install build dependency [Pyinstaller](http://www.pyinstaller.org/) running in windows console:
@@ -27,6 +31,12 @@ Now build a standalone executable running:
 ```
 
 You can find in dist/cmdlogger.7z Win64 precompiled binary.
+
+Install pyintaller devel version if you get an error like this (pyinstaller does not yet support pyton3.6 and above):
+```
+IndexError: tuple index out of range
+pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
+```
 
 # Tests
 You can launch tests using test/server.py script:
