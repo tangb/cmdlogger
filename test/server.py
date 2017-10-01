@@ -30,7 +30,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server.settimeout(1.0)
 server.bind(('', 9001))
-
+print('Listening on port 9001')
 print('CTRL-C to stop server')
 
 try:

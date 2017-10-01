@@ -59,6 +59,9 @@ def usage():
     print(' - comm port: communication port to send stdout and stderr message to (uses socket)')
     print(' - command: command to execute')
     print(' - command args: command arguments')
+    print('')
+    print('Some return codes:')
+    print(' - 127: command not found')
     
 def send_output(output, stdout):
     """
