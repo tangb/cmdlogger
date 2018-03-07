@@ -21,22 +21,25 @@ And inspires next part of your code with test/server.py sample.
 TODO
 
 # Build
-Install build dependency [Pyinstaller](http://www.pyinstaller.org/) running in windows console:
+Install build dependency [Pyinstaller](http://www.pyinstaller.org/) running in console:
 ```
 pip3 install -r requirements
 ```
 Now build a standalone executable running:
 ```
-./build.bat
+build.bat or build.sh
 ```
 
-You can find in dist/cmdlogger.7z Win64 precompiled binary.
+## Releases
+You can find precompiled version for different environment into dist/ folder.
 
-Install pyintaller devel version if you get an error like this (pyinstaller does not yet support pyton3.6 and above):
+# Troubleshoot
+If you get this error:
 ```
 IndexError: tuple index out of range
 pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
 ```
+Please install pyinstaller devel version that supports python 3.6 (latest official release 3.3.1 officialy support python 3.6)
 
 # Tests
 You can launch tests using test/server.py script:
