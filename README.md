@@ -30,6 +30,9 @@ Now build a standalone executable running:
 build.bat or build.sh
 ```
 
+Then run 7zip to compress archive:
+> 7z.exe a cmdlogger-[target].7z dist\cmdlogger\
+
 ## Releases
 You can find precompiled version for different environment into dist/ folder.
 
