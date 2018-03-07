@@ -1,7 +1,7 @@
 # cmdlogger
 Runs specified command, watchs for stdout/stderr and sends output to socket server.
 
-This program was originally created to monitor Windows command launched under UAC elevated privileges using ShellExecuteEx.
+This python program was originally created to monitor Windows command launched under UAC elevated privileges using ShellExecuteEx.
 
 Windows ShellExecuteEx function prevents stdout/stderr from being displayed in console (in fact there is no console).
 This program is only a workaround for that problem.
@@ -12,15 +12,35 @@ This program runs with Python2.7.X and Python3.X and requires no extra library.
 # How to use
 ## Windows
 Launch Windows command using ShellExecuteEx (no console window and UAC elevation):
-> proc_info = ShellExecuteEx(nShow=win32con.SW_HIDE, fMask=shellcon.SEE_MASK_NOCLOSEPROCESS, lpVerb=u'runas', lpFile=cmd, lpParameters=params)
+```
+command = [u'mycommand.sh', u'param1']
+user_cmd = command[0]
+user_cmd_params = [u'param1', u'param2'] + command[1:]
+proc_info = ShellExecuteEx(nShow=win32con.SW_HIDE, fMask=shellcon.SEE_MASK_NOCLOSEPROCESS, lpVerb=u'runas', lpFile=cmd, lpParameters=params)
+```
 
 And inspires next part of your code with test/server.py sample.
 
 ## Mac
-TODO
+This is an example of how to run command with admin privileges using cmdlogger on Mac environment:
+```
+command = [u'mycommand.sh', u'param1']
+params = [cmdlogger_path, comm_port, self.command[0]] + self.command[1:]
+cmd_line = 'osascript -e "do shell script \\"%s\\" with administrator privileges"' % u' '.join(params)
+proc_info = subprocess.Popen(cmd_line, shell=True, stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=self.on_posix)
+```
 
 ## Linux
-TODO
+This is an example of how to run command with admin privileges using cmdlogger on Linux environment:
+```
+command = [u'mycommand.sh', u'param1']
+params = [cmdlogger_path, comm_port, self.command[0]] + self.command[1:]
+cmd_line = 'pkexec %s' % u' '.join(params)
+proc_info = subprocess.Popen(cmd_line, shell=True, stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=self.on_posix)
+```
+
+## Full example
+You can find full usage example in [console.py](https://github.com/tangb/CleepDesktop/blob/master/core/libs/console.py) on CleepDesktop project 
 
 # Build
 Install build dependency [Pyinstaller](http://www.pyinstaller.org/) running in console:
