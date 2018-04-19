@@ -20,17 +20,19 @@ try:
 except ImportError:
     from queue import Queue, Empty  # python 3.x
 from threading import Thread
+import platform
 
 #init logger
 logging.basicConfig(level=logging.WARN, format='%(asctime)s %(name)s.%(funcName)s +%(lineno)s: %(levelname)-8s [%(process)d] %(message)s')
 logger = logging.getLogger('CmdLogger')
-#logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.DEBUG)
 
 #globals
 stdout_queue = Queue()
 stderr_queue = Queue()
 running = True
 client = None
+return_code = 1 #general error code returned by default
 
 def enqueue_output(output, queue):
     """
@@ -84,7 +86,7 @@ def send_output(output, stdout):
             logger.debug(u'Send stderr')
             client.send(b'STDERR:'+output)
     except:
-        logger.exception('Problem sending output. Disable data sending')
+        logger.exception('Problem sending output. Disable data sending: ')
         client = None
 
 #parse command line arguments
@@ -143,6 +145,11 @@ while running:
         send_output(stdout, True)
         send_output(stderr, False)
 
+    else:
+        #no client connected, stop processing command
+        logger.debug('Client disconnected. Stop processing.')
+        break
+
     #check end of command
     if p.returncode is not None:
         #command terminated
@@ -155,7 +162,11 @@ while running:
 
 #make sure command is killed
 try:
-    os.kill(pid, signal.SIGKILL)
+    if sys.platform == 'win32':
+        subprocess.Popen(u'taskkill /PID %s /F > nul 2>&1' % pid, shell=True)
+    else:
+        subprocess.Popen(u'/usr/bin/pkill -9 -P %s 2> /dev/null' % pid, shell=True)
+
 except:
     pass
     
