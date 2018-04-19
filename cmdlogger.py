@@ -25,7 +25,7 @@ import platform
 #init logger
 logging.basicConfig(level=logging.WARN, format='%(asctime)s %(name)s.%(funcName)s +%(lineno)s: %(levelname)-8s [%(process)d] %(message)s')
 logger = logging.getLogger('CmdLogger')
-logger.setLevel(logging.DEBUG)
+#logger.setLevel(logging.DEBUG)
 
 #globals
 stdout_queue = Queue()
