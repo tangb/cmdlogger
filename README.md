@@ -6,6 +6,8 @@ This python program was originally created to monitor Windows command launched u
 Windows ShellExecuteEx function prevents stdout/stderr from being displayed in console (in fact there is no console).
 This program is only a workaround for that problem.
 
+When server is gone, cmdlogger process will quit too avoiding background zombi processes.
+
 # Installation
 This program runs with Python2.7.X and Python3.X and requires no extra library.
 
