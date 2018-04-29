@@ -25,7 +25,10 @@ import platform
 #init logger
 logging.basicConfig(level=logging.WARN, format='%(asctime)s %(name)s.%(funcName)s +%(lineno)s: %(levelname)-8s [%(process)d] %(message)s')
 logger = logging.getLogger('CmdLogger')
-#logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.DEBUG)
+
+#constants
+VERSION = '0.2.3'
 
 #globals
 stdout_queue = Queue()
@@ -57,13 +60,17 @@ def usage():
     """
     Display usage
     """
-    print('Usage: cmdlogger.exe <comm port> <command> <command args, ...>')
+    print('Usage: cmdlogger(.exe) <comm port> <command> <command args, ...>')
     print(' - comm port: communication port to send stdout and stderr message to (uses socket)')
     print(' - command: command to execute')
     print(' - command args: command arguments')
     print('')
-    print('Some return codes:')
-    print(' - 127: command not found')
+    print('Exit codes:')
+    print(' - 0: success')
+    print(' - 1: general error (typically invalid parameter)')
+    print(' - x: specified command exit code')
+    print('')
+    print('Cmdlogger version %s' % VERSION)
     
 def send_output(output, stdout):
     """
@@ -94,7 +101,7 @@ args = sys.argv[1:]
 logger.debug(u'Args: %s' % args)
 if len(args)<=1:
     usage()
-    sys.exit(0)
+    sys.exit(1)
 try:
     comm_port = int(args[0])
     logger.debug(u'Port: %d' % comm_port)
@@ -103,7 +110,7 @@ try:
 except:
     logger.exception(u'Unable to init communication socket. Data sending disabled.')
     client = None
-command = args[1]
+command = '"%s"' % args[1]
 if len(args)>=2:
     command_args = u' '.join([u'"%s"' % (x,) for x in args[2:]])
 logger.debug(u'command:%s command_args:%s' % (command, command_args))
@@ -176,3 +183,4 @@ if client is not None:
 
 #exit with user command return code
 sys.exit(return_code)
+
